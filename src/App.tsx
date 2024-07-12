@@ -1,8 +1,10 @@
+import { useState } from "react";
 import "./App.css";
 import useHeatmap from "./hooks/useHeatmap";
 
 function App() {
   const { heatmapInstance, heatmapRef } = useHeatmap();
+  const [viewHeatmap, setViewHeatmap] = useState(false);
 
   const download = (img?: string) => {
     if (!img) return;
@@ -13,13 +15,19 @@ function App() {
   };
   return (
     <>
-      <div ref={heatmapRef} className="heatmap">
+      <div
+        ref={heatmapRef}
+        className={`heatmap ${viewHeatmap ? "" : "heatmap-hide"}`}
+      >
         <div>
           Hover on here
         </div>
       </div>
       <button onClick={() => download(heatmapInstance?.getDataURL())}>
         Export Heatmap data
+      </button>
+      <button onClick={() => setViewHeatmap(!viewHeatmap)}>
+        Toggle Heatmap
       </button>
     </>
   );
