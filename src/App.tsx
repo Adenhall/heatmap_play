@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import useHeatmap from "./hooks/useHeatmap";
+import MemoryGame from "./components/MemoryGame";
 
 function App() {
   const { heatmapInstance, heatmapRef } = useHeatmap();
@@ -14,22 +15,22 @@ function App() {
     a.click();
   };
   return (
-    <>
+    <div className="App">
       <div
         ref={heatmapRef}
         className={`heatmap ${viewHeatmap ? "" : "heatmap-hide"}`}
       >
-        <div>
-          Hover on here
-        </div>
+        <MemoryGame />
       </div>
-      <button onClick={() => download(heatmapInstance?.getDataURL())}>
-        Export Heatmap data
-      </button>
-      <button onClick={() => setViewHeatmap(!viewHeatmap)}>
-        Toggle Heatmap
-      </button>
-    </>
+      <div className="buttons-container">
+        <button onClick={() => download(heatmapInstance?.getDataURL())}>
+          Export Heatmap data
+        </button>
+        <button onClick={() => setViewHeatmap(!viewHeatmap)}>
+          Toggle Heatmap
+        </button>
+      </div>
+    </div>
   );
 }
 

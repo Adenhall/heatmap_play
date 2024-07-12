@@ -11,7 +11,7 @@ const useHeatmap = () => {
 
     heatmapInstance.current = h337.create({
       container,
-      radius: 20,
+      radius: 25,
     });
   }, []);
 
@@ -20,18 +20,18 @@ const useHeatmap = () => {
     if (!container || !heatmapInstance.current) return;
 
     const handleMouseMove = (event: MouseEvent) => {
-      const { layerX: x, layerY: y } = event;
+      const { clientX: x, clientY: y } = event;
       heatmapInstance.current!.addData({
         x,
         y,
-        value: 1,
+        value: 100,
       });
     };
 
-    container.addEventListener("mousemove", handleMouseMove);
+    container.addEventListener("click", handleMouseMove);
 
     return () => {
-      container.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("click", handleMouseMove);
     };
   }, []);
 
