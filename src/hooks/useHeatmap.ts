@@ -1,41 +1,21 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import h337 from "heatmap.js";
 
 const useHeatmap = () => {
   const heatmapContainer = useRef<HTMLDivElement | null>(null);
-  const heatmapInstance = useRef<h337.Heatmap<"value", "x", "y"> | null>(null);
+  const [heatmapInstance, setHeatmapInstance] = useState<h337.Heatmap<"value", "x", "y"> | null>(null);
 
   useEffect(() => {
     const container = heatmapContainer.current;
-    if (!container || heatmapInstance.current) return;
+    if (!container || heatmapInstance) return;
 
-    heatmapInstance.current = h337.create({
+    setHeatmapInstance(h337.create({
       container,
       radius: 25,
-    });
-  }, []);
+    }));
+  }, [heatmapInstance]);
 
-  useEffect(() => {
-    const container = heatmapContainer.current;
-    if (!container || !heatmapInstance.current) return;
-
-    const handleMouseMove = (event: MouseEvent) => {
-      const { clientX: x, clientY: y } = event;
-      heatmapInstance.current!.addData({
-        x,
-        y,
-        value: 100,
-      });
-    };
-
-    container.addEventListener("click", handleMouseMove);
-
-    return () => {
-      container.removeEventListener("click", handleMouseMove);
-    };
-  }, []);
-
-  return { heatmapRef: heatmapContainer, heatmapInstance: heatmapInstance.current };
+  return { heatmapRef: heatmapContainer, heatmapInstance };
 };
 
 export default useHeatmap;

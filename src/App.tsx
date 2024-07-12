@@ -19,6 +19,8 @@ function App() {
       <div
         ref={heatmapRef}
         className={`heatmap ${viewHeatmap ? "" : "heatmap-hide"}`}
+        onClick={(e) =>
+          heatmapInstance?.addData({ x: e.clientX, y: e.clientY, value: 100 })}
       >
         <MemoryGame />
       </div>
