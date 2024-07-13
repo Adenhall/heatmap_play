@@ -1,4 +1,6 @@
 import { useState } from "react";
+import html2canvas from "html2canvas";
+
 import "./App.css";
 import useHeatmap from "./hooks/useHeatmap";
 import MemoryGame from "./components/MemoryGame";
@@ -6,6 +8,18 @@ import MemoryGame from "./components/MemoryGame";
 function App() {
   const { heatmapInstance, heatmapRef } = useHeatmap();
   const [viewHeatmap, setViewHeatmap] = useState(false);
+
+  const captureHeatmapOnGame = async () => {
+    if (!heatmapRef.current) return;
+    const captured = await html2canvas(heatmapRef.current, {
+      useCORS: true,
+      onclone: (node) =>
+        node.querySelector(".heatmap-hide")?.classList.remove("heatmap-hide"), // Ensure to show the heatmap
+    });
+    const imgUrl = captured.toDataURL("image/png");
+
+    download(imgUrl);
+  };
 
   const download = (img?: string) => {
     if (!img) return;
@@ -27,6 +41,9 @@ function App() {
       <div className="buttons-container">
         <button onClick={() => download(heatmapInstance?.getDataURL())}>
           Export Heatmap data
+        </button>
+        <button onClick={captureHeatmapOnGame}>
+          Export Heatmap On Game
         </button>
         <button onClick={() => setViewHeatmap(!viewHeatmap)}>
           Toggle Heatmap
