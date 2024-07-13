@@ -1,6 +1,8 @@
 # Heatmap Memory Game
 
 A simple memory game using heatmap.
+![Kapture 2024-07-13 at 16 12 02](https://github.com/user-attachments/assets/e4803411-b034-4ab2-ba7a-c1c7c172fc6c)
+
 
 ## Prequesites
 
